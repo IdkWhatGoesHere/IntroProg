@@ -1,39 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
-int **crear(int n, int m);
-int destapar(int **matriz);
+int busqueda();
+int *crear();
 
 int main() {
-    int n,m;
-    scanf("%d %d",&n,&m);
-    int **matriz=crear(n,m);
-    for(int i=0;i<n;i++){
-        for(int j=0;j<m;j++){
-            scanf("%d",&matriz[i][j]);
-        }
+    int estudiantes,dorap;
+    scanf("%d %d",&estudiantes,&dorap);
+    int *matriz=crear(estudiantes);
+    for(int i=0;i<estudiantes;i++){
+        scanf("%d",&matriz[i]);
     }
-    printf("%d",destapar(matriz));
-    for(int i=0;i<m;i++){
-        free(matriz[i]);
+    for(int i=0;i<dorap;i++) {
+        printf("%d\n",busqueda(estudiantes,matriz));
     }
-    free(matriz);
     return 0;
 }
-
-int **crear(int n, int m){
-    int **matriz;
-    matriz=(int **) malloc(n*sizeof(int *));
-    for(int i=0;i<n;i++){
-        matriz[i]=(int *) malloc(m*sizeof(int));
-    }
+int *crear(int estudiantes){
+    int *matriz;
+    matriz=(int *) malloc(estudiantes*sizeof(int));
     return matriz;
 }
-int destapar(int **matriz){
-    int intentos,aux=0,posi,posj;
-    scanf("%d",&intentos);
-    for(int i=0;i<intentos;i++){
-        scanf("%d %d",&posi,&posj);
-        aux+=matriz[posi][posj];
+int busqueda(int estudiantes,int *matriz){
+    int pregunta, possup = estudiantes - 1, posinf = 0, m;
+    scanf("%d", &pregunta);
+    while (posinf < possup) {
+        m = (possup + posinf) / 2;
+        if (pregunta > matriz[m]) {
+            posinf = m + 1;
+        } else {
+            possup = m;
+        }
     }
-    return aux;
+    return posinf;
 }
